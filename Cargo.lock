@@ -45,6 +45,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "cc"
+version = "1.0.73"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2fff2a6927b3bb87f9595d67196a70493f627687a71d87a0d692242c33f58c11"
+
+[[package]]
 name = "json"
 version = "0.12.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -98,12 +104,15 @@ name = "os81"
 version = "0.1.0"
 dependencies = [
  "bootloader",
+ "cc",
  "lazy_static",
  "linked_list_allocator",
  "pic8259",
+ "rustc-cfg",
  "spin 0.9.4",
  "uart_16550",
  "volatile 0.2.7",
+ "x86",
  "x86_64",
 ]
 
@@ -135,6 +144,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "raw-cpuid"
+version = "10.6.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a6823ea29436221176fe662da99998ad3b4db2c7f31e7b6f5fe43adccd6320bb"
+dependencies = [
+ "bitflags",
+]
+
+[[package]]
 name = "runner-utils"
 version = "0.0.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -143,6 +161,12 @@ dependencies = [
  "thiserror",
  "wait-timeout",
 ]
+
+[[package]]
+name = "rustc-cfg"
+version = "0.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "56a596b5718bf5e059d59a30af12f7f462a152de147aa462b70892849ee18704"
 
 [[package]]
 name = "rustversion"
@@ -247,6 +271,17 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9f200f5b12eb75f8c1ed65abd4b2db8a6e1b138a20de009dacee265a2498f3f6"
 dependencies = [
  "libc",
+]
+
+[[package]]
+name = "x86"
+version = "0.51.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "fa7477e4af519a58818c1f0ab4b149d0ce3304e625be8fe56c8484cac50b0532"
+dependencies = [
+ "bit_field",
+ "bitflags",
+ "raw-cpuid",
 ]
 
 [[package]]

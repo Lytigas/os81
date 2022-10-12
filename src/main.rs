@@ -14,12 +14,15 @@ use os81::serial_println;
 entry_point!(kernel_main);
 
 fn kernel_main(boot_info: &'static mut BootInfo) -> ! {
-    use os81::allocator;
     use os81::memory::{self, BootInfoFrameAllocator};
     use x86_64::VirtAddr;
 
-    os81::init();
-    os81::serial_println!("Hello World{}", "!");
+    let phys_mem_offset = boot_info
+        .physical_memory_offset
+        .into_option()
+        .expect("Kernel requires a bootloader-provided physical memory map");
+
+    os81::kstart(phys_mem_offset, &boot_info.memory_regions);
 
     // Write a green stripe on successful init
     if let Some(framebuffer) = boot_info.framebuffer.as_mut() {
@@ -31,17 +34,6 @@ fn kernel_main(boot_info: &'static mut BootInfo) -> ! {
             buffer[buffer.len() - i - 3] = 0xFF;
         }
     }
-
-    let phys_mem_offset = VirtAddr::new(
-        boot_info
-            .physical_memory_offset
-            .into_option()
-            .expect("Kernel requires a bootloader-provided physical memory map"),
-    );
-    let mut mapper = unsafe { memory::init(phys_mem_offset) };
-    let mut frame_allocator = unsafe { BootInfoFrameAllocator::init(&boot_info.memory_regions) };
-
-    allocator::init_heap(&mut mapper, &mut frame_allocator).expect("heap initialization failed");
 
     // allocate a number on the heap
     let heap_value = Box::new(41);
