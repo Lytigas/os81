@@ -6,6 +6,8 @@ use std::{
 
 const RUN_ARGS: &[&str] = &[
     "--no-reboot",
+    // "-smp",
+    // "4",
     "-device",
     "isa-debug-exit,iobase=0xf4,iosize=0x04",
     "-serial",
@@ -13,13 +15,15 @@ const RUN_ARGS: &[&str] = &[
     "-s",
 ];
 const TEST_ARGS: &[&str] = &[
+    "--no-reboot",
+    // "-smp",
+    // "4",
     "-device",
     "isa-debug-exit,iobase=0xf4,iosize=0x04",
     "-serial",
     "stdio",
     "-display",
     "none",
-    "--no-reboot",
 ];
 const TEST_TIMEOUT_SECS: u64 = 10;
 

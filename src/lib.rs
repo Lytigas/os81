@@ -72,17 +72,25 @@ pub unsafe extern "C" fn kstart_ap(args_ptr: *const ap_init::KernelArgsAp) -> ! 
     while !ap_init::BSP_READY.load(Ordering::SeqCst) {
         core::arch::x86_64::_mm_pause()
     }
-    loop {}
+
+    device::init_ap();
+
+    ap_init::AP_READY.store(true, Ordering::SeqCst);
+    while !ap_init::BSP_READY.load(Ordering::SeqCst) {
+        core::arch::x86_64::_mm_pause()
+    }
+
+    crate::kmain_ap(cpu_id);
 }
 
 pub fn kmain() {
-    serial_println!("stuff from an ap");
+    serial_println!("stuff from main bsp");
     x86_64::instructions::interrupts::enable();
     crate::hlt_loop();
 }
 
-pub fn kmain_ap() {
-    serial_println!("stuff from an ap");
+pub fn kmain_ap(cpu_id: usize) -> ! {
+    serial_println!("stuff from ap {}", cpu_id);
     x86_64::instructions::interrupts::enable();
     crate::hlt_loop();
 }
