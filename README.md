@@ -2,6 +2,14 @@
 
 ## Building running debugging
 
+### Dependencies
+
+You'll need to rustup component add `llvm-tools-preview` and `rustc-src` to a
+recent nightly toolchain.
+
+
+### Doing it:
+
 Use cargo aliases: `kbuild`, `kimage`, `krun`, `ktest`.
 
 To debug with qemu, run something like
@@ -24,3 +32,7 @@ your distros package manager. Then just run, noting the drive arguments and the
 ```
 qemu-system-x86_64 -drive format=raw,file=target/x86_64-custom/debug/boot-uefi-os81.efi --no-reboot -device isa-debug-exit,iobase=0xf4,iosize=0x04 -serial stdio -s -bios /usr/share/ovmf/OVMF.fd
 ```
+
+
+Code borrowed heavily from [Redox](https://www.redox-os.org/) and
+[Phil Opp](https://os.phil-opp.com/)
